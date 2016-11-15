@@ -1,4 +1,4 @@
-# image-cover
+# image-cover.js
 Super lightweight jQuery plugin to emulate background-size: cover for img's
 
 ## Usage
