@@ -7,8 +7,7 @@
       delay: 100
     };
 
-    o = $.extend(defaults, options);
-
+    var o = $.extend(defaults, options);
 
     var container = $(this);
     var images = container.children(o.target);
@@ -31,7 +30,7 @@
           image.css({ // width to 100% and top margin offset
             height: 'auto',
             width: '100%'
-          }),
+          });
           image.css({ // width to 100% and top margin offset
             marginLeft: 0,
             marginTop: '-' + ((image.height() - container.height()) / 2) + 'px'
