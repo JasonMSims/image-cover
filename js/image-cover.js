@@ -10,7 +10,7 @@
     var o = $.extend(defaults, options);
 
     var container = $(this);
-    var images = container.children(o.target);
+    var images = container.find(o.target);
     var timer;
 
     function position(image) {
