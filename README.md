@@ -18,13 +18,31 @@ $(document).ready(function() {
 
 ## Options
 
-Currently there is only one option to pass in
-
 * target (change the target element to resize)
+* delay (ms to delay after window resize)
+* scale (
+  fill,
+  fillHeight,
+  fillWidth,
+  stretch
+)
+* breakpoints (responsive breakpoints)
 
 ```Javascript
 $('.container').cover({
   target: 'div.not-image'
+  delay: 50,
+  scale: 'fill',
+  breakpoints: {
+    767: {
+      delay: 10,
+      scale: 'fillWidth'
+    },
+    1199: {
+      delay: 0,
+      scale: 'stretch'
+    }
+  }
 });
 ```
 
