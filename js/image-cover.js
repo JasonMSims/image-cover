@@ -21,6 +21,13 @@
     c.container = $(this);
     c.images = c.container.find(c.o.target);
 
+    // Check Modernizr
+    if (typeof Modernizr == 'object') {
+      if(Modernizr.objectfit) {
+        c.objectfit = true;
+      }
+    }
+
     /*=========================
     Breakpoints
     =========================*/
@@ -78,8 +85,55 @@
       // Various different scale methods
       scale: {
         fill: function(r) {
-          if (r.container.ratio < r.image.ratio) {
+          r.image.removeAttr('style');
+          if (c.objectfit) {
             r.image.css({
+              'height': '100%',
+              'object-fit': 'cover',
+              'object-position': '50% 50%',
+              'width': '100%'
+            });
+          }
+          else {
+            if (r.container.ratio < r.image.ratio) {
+              r.image.css({
+                height: r.container.height,
+                width: 'auto'
+              });
+              r.image.css({
+                marginBottom: 0,
+                marginLeft: '-' + ((r.image.width() - r.container.width) / 2) + 'px',
+                marginRight: 0,
+                marginTop: 0
+              });
+            }
+            else {
+              r.image.css({ // width to 100% and top margin offset
+                height: 'auto',
+                width: r.container.width
+              });
+              r.image.css({ // width to 100% and top margin offset
+                marginBottom: 0,
+                marginLeft: 0,
+                marginRight: 0,
+                marginTop: '-' + ((r.image.height() - r.container.height) / 2) + 'px'
+              });
+            }
+          }
+        },
+
+        fillHeight: function(r) {
+          r.image.removeAttr('style');
+          if (c.objectfit) {
+            r.image.css({
+              'height': '100%',
+              'object-fit': 'contain',
+              'object-position': '50% 50%',
+              'width': 'auto'
+            });
+          }
+          else {
+            r.image.css({ // height to 100% and left margin offset
               height: r.container.height,
               width: 'auto'
             });
@@ -90,57 +144,52 @@
               marginTop: 0
             });
           }
+        },
+
+        fillWidth: function(r) {
+          r.image.removeAttr('style');
+          if (c.objectfit) {
+            r.image.css({
+              'height': 'auto',
+              'object-fit': 'contain',
+              'object-position': '50% 50%',
+              'width': '100%'
+            });
+          }
           else {
             r.image.css({ // width to 100% and top margin offset
               height: 'auto',
               width: r.container.width
             });
-            r.image.css({ // width to 100% and top margin offset
+            r.image.css({
               marginBottom: 0,
               marginLeft: 0,
               marginRight: 0,
-              marginTop: '-' + ((r.image.height() - r.container.height) / 2) + 'px'
+              marginTop: 0
             });
           }
         },
 
-        fillHeight: function(r) {
-          r.image.css({ // height to 100% and left margin offset
-            height: r.container.height,
-            width: 'auto'
-          });
-          r.image.css({
-            marginBottom: 0,
-            marginLeft: '-' + ((r.image.width() - r.container.width) / 2) + 'px',
-            marginRight: 0,
-            marginTop: 0
-          });
-        },
-
-        fillWidth: function(r) {
-          r.image.css({ // width to 100% and top margin offset
-            height: 'auto',
-            width: r.container.width
-          });
-          r.image.css({
-            marginBottom: 0,
-            marginLeft: 0,
-            marginRight: 0,
-            marginTop: 0
-          });
-        },
-
         stretch: function(r) {
-          r.image.css({
-            height: r.container.height,
-            width: r.container.width
-          });
-          r.image.css({
-            marginBottom: 0,
-            marginLeft: 0,
-            marginRight: 0,
-            marginTop: 0
-          });
+          r.image.removeAttr('style');
+          if (c.objectfit) {
+            r.image.css({
+              'height': '100%',
+              'width': '100%'
+            });
+          }
+          else {
+            r.image.css({
+              height: r.container.height,
+              width: r.container.width
+            });
+            r.image.css({
+              marginBottom: 0,
+              marginLeft: 0,
+              marginRight: 0,
+              marginTop: 0
+            });
+          }
         },
       }
     };
@@ -172,15 +221,23 @@
     =========================*/
 
     $(window).on('resize', function() {
-      clearTimeout(c.timer);
-      c.timer = setTimeout(function() {
+      var findPosition = function() {
         if (c.o.breakpoints) { // If breakpoints exist, requery the current breakpoint on resize
           c.setBreakpoint();
         }
         c.images.each(function() {
           position($(this));
         });
-      }, c.o.delay);
+      };
+      if (c.objectfit) {
+        findPosition();
+      }
+      else {
+        clearTimeout(c.timer);
+        c.timer = setTimeout(function() {
+          findPosition();
+        }, c.o.delay);
+      }
     });
 
     /*=========================
