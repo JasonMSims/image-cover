@@ -21,7 +21,7 @@ $(document).ready(function() {
 ## Options
 
 * target (change the target element to resize)
-* delay (ms to delay after window resize)
+* delay (ms to delay after window resize - has no effect if the browser supports object-fit)
 * scale (
   fill,
   fillHeight,
