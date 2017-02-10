@@ -2,11 +2,10 @@
 Super lightweight jQuery plugin to emulate background-size: cover for img's
 
 ## Usage
-Simply include jQuery, the included Modernizr.js, and image-cover
+Simply include jQuery and image-cover
 
 ```
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
- <script src="../js/modernizr.js"></script>
 <script type="text/javascript" src="js/image-cover.min.js"></script>
 ```
 
