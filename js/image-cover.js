@@ -71,8 +71,6 @@
           c.o[option] = breakpointOptions[option];
         }
         c.curBreakpoint = breakpoint;
-        console.log('breakpoint is: ' + breakpoint);
-        console.log(c.o);
       }
     };
 
