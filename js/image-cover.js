@@ -71,13 +71,10 @@
           c.o[option] = breakpointOptions[option];
         }
         c.curBreakpoint = breakpoint;
+        console.log('breakpoint is: ' + breakpoint);
+        console.log(c.o);
       }
     };
-
-    //  Set breakpoint on load
-    if (c.o.breakpoints) {
-      c.setBreakpoint();
-    }
 
     /*=========================
     Methods
@@ -101,6 +98,8 @@
             if (r.container.ratio < r.image.ratio) {
               r.image.css({
                 height: r.container.height,
+                position: 'absolute',
+                // position: 'relative',
                 width: 'auto'
               });
               r.image.css({
@@ -113,6 +112,8 @@
             else {
               r.image.css({ // width to 100% and top margin offset
                 height: 'auto',
+                position: 'absolute',
+                // position: 'relative',
                 width: r.container.width
               });
               r.image.css({ // width to 100% and top margin offset
@@ -132,12 +133,13 @@
               'height': '100%',
               'object-fit': 'contain',
               'object-position': '50% 50%',
-              'width': 'auto'
+              'width': '100%'
             });
           }
           else {
             r.image.css({ // height to 100% and left margin offset
               height: r.container.height,
+              position: 'relative',
               width: 'auto'
             });
             r.image.css({
@@ -153,7 +155,7 @@
           r.image.removeAttr('style');
           if (c.objectfit) {
             r.image.css({
-              'height': 'auto',
+              'height': '100%',
               'object-fit': 'contain',
               'object-position': '50% 50%',
               'width': '100%'
@@ -162,37 +164,19 @@
           else {
             r.image.css({ // width to 100% and top margin offset
               height: 'auto',
+              position: 'relative',
               width: r.container.width
-            });
-            r.image.css({
-              marginBottom: 0,
-              marginLeft: 0,
-              marginRight: 0,
-              marginTop: 0
             });
           }
         },
 
         stretch: function(r) {
           r.image.removeAttr('style');
-          if (c.objectfit) {
-            r.image.css({
-              'height': '100%',
-              'width': '100%'
-            });
-          }
-          else {
-            r.image.css({
-              height: r.container.height,
-              width: r.container.width
-            });
-            r.image.css({
-              marginBottom: 0,
-              marginLeft: 0,
-              marginRight: 0,
-              marginTop: 0
-            });
-          }
+          r.image.css({
+            'height': '100%',
+            position: 'relative',
+            'width': '100%'
+          });
         },
       }
     };
@@ -205,6 +189,10 @@
 
       // Establish ratios and dimensions and pass to the relevant scale method
       var r = {};
+
+      image.css({
+        position: 'absolute',
+      });
 
       r.container = {
         height: c.container.height(),
@@ -247,6 +235,11 @@
     Inital Run
     =========================*/
 
+    //  Set breakpoint on load
+    if (c.o.breakpoints) {
+      c.setBreakpoint();
+    }
+
     return c.images.each(function() {
 
       var image = $(this);
@@ -255,7 +248,7 @@
         position(image);
       });
 
-      if (this.complete) { // if the image is cached, run the position function
+      if (this.complete || this.complete === undefined) { // if the image is cached, run the position function
         position(image);
       }
     });
