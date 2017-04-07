@@ -10,7 +10,10 @@
       target: 'img',
       delay: 100,
       scale: 'fill',
-      align: 'center',
+      align: {
+        h: 'center',
+        v: 'center'
+      },
       breakpoints: []
     };
 
@@ -41,7 +44,7 @@
     // Get the Active Breakpoint
     c.getActiveBreakpoint = function() {
       if (!c.o.breakpoints) return false; // If there are no breakpoints, leave the function
-      var breakpoint = false;
+      var breakpoint = null;
       var breakpoints = [];
       $.each(c.o.breakpoints, function(k, v) {
         breakpoints.push(k);
@@ -88,7 +91,7 @@
             r.image.css({
               'height': '100%',
               'object-fit': 'cover',
-              'object-position': '50% 50%',
+              'object-position': c.o.align.h + ' ' + c.o.align.v,
               'width': '100%'
             });
           }
@@ -100,25 +103,32 @@
                 // position: 'relative',
                 width: 'auto'
               });
+              var posLeft = '-' + ((r.image.width() - r.container.width) / 2) + 'px';
+              if (c.o.align.h !== 'center') {
+                posLeft = (c.o.align.h == 'right') ? 'auto': '0';
+              };
               r.image.css({
-                marginBottom: 0,
-                marginLeft: '-' + ((r.image.width() - r.container.width) / 2) + 'px',
-                marginRight: 0,
-                marginTop: 0
+                bottom: 0,
+                left: posLeft,
+                right: 0,
+                top: 0
               });
             }
             else {
               r.image.css({ // width to 100% and top margin offset
                 height: 'auto',
                 position: 'absolute',
-                // position: 'relative',
                 width: r.container.width
               });
+              var posTop = '-' + ((r.image.height() - r.container.height) / 2) + 'px';
+              if (c.o.align.v !== 'center') {
+                posTop = (c.o.align.v == 'bottom') ? 'auto': '0';
+              };
               r.image.css({ // width to 100% and top margin offset
-                marginBottom: 0,
-                marginLeft: 0,
-                marginRight: 0,
-                marginTop: '-' + ((r.image.height() - r.container.height) / 2) + 'px'
+                bottom: 0,
+                left: 0,
+                right: 0,
+                top: posTop
               });
             }
           }
@@ -130,8 +140,7 @@
             r.image.css({
               'height': '100%',
               'object-fit': 'contain',
-              'object-position': '50% 50%',
-              'width': '100%'
+              'object-position': c.o.align.h + ' ' + c.o.align.v,
             });
           }
           else {
@@ -140,11 +149,15 @@
               position: 'relative',
               width: 'auto'
             });
+            var posLeft = '-' + ((r.image.width() - r.container.width) / 2) + 'px';
+            if (c.o.align.h !== 'center') {
+              posLeft = (c.o.align.h == 'right') ? '-' + (r.image.width() - r.container.width) + 'px': '0';
+            };
             r.image.css({
-              marginBottom: 0,
-              marginLeft: '-' + ((r.image.width() - r.container.width) / 2) + 'px',
-              marginRight: 0,
-              marginTop: 0
+              bottom: 0,
+              left: posLeft,
+              right: 0,
+              top: 0
             });
           }
         },
@@ -153,9 +166,8 @@
           r.image.removeAttr('style');
           if (c.objectfit) {
             r.image.css({
-              'height': '100%',
               'object-fit': 'contain',
-              'object-position': '50% 50%',
+              'object-position': c.o.align.h + ' ' + c.o.align.v,
               'width': '100%'
             });
           }
