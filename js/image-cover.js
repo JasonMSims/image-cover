@@ -26,7 +26,6 @@
     c.o = o;
     c.oo = $.extend({}, c.o);
     c.container = $(this);
-    c.images = c.container.find(c.o.target);
 
     // Check Modernizr
     if (typeof Modernizr == 'object') {
@@ -195,9 +194,8 @@
     Position
     =========================*/
 
-    function position(image) {
-      // Overwrite general container with specific container (fix for incorrect widths - may need more thorough solution in the future...)
-      var container = $(this).closest(c.container);
+    function position(container) {
+      var image = container.find(c.o.target);
 
       // Establish ratios and dimensions and pass to the relevant scale method
       var r = {};
@@ -228,7 +226,7 @@
         if (c.o.breakpoints) { // If breakpoints exist, requery the current breakpoint on resize
           c.setBreakpoint();
         }
-        c.images.each(function() {
+        c.container.each(function() {
           position($(this));
         });
       };
@@ -252,16 +250,16 @@
       c.setBreakpoint();
     }
 
-    return c.images.each(function() {
-
-      var image = $(this);
+    return c.container.each(function() {
+      var container = $(this);
+      var image = container.find(c.o.target);
 
       image.load(function() { // when the image is loaded, run the position function
-        position(image);
+        position(container);
       });
 
-      if (this.complete || this.complete === undefined) { // if the image is cached, run the position function
-        position(image);
+      if (image.complete || image.complete === undefined) { // if the image is cached, run the position function
+        position(container);
       }
     });
   };
