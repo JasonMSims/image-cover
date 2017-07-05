@@ -196,6 +196,8 @@
     =========================*/
 
     function position(image) {
+      // Overwrite general container with specific container (fix for incorrect widths - may need more thorough solution in the future...)
+      var container = $(this).closest(c.container);
 
       // Establish ratios and dimensions and pass to the relevant scale method
       var r = {};
@@ -205,9 +207,9 @@
       });
 
       r.container = {
-        height: c.container.height(),
-        ratio: (c.container.width() / c.container.height()),
-        width: c.container.width(), 
+        height: container.height(),
+        ratio: (container.width() / container.height()),
+        width: container.width(), 
       };
 
       r.image = image;
