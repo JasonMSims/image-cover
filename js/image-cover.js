@@ -205,7 +205,7 @@
       });
 
       r.container = {
-        height: container.outerWeight(),
+        height: container.outerHeight(),
         ratio: (container.outerWidth() / container.outerHeight()),
         width: container.outerWidth(), 
       };
