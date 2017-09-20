@@ -205,9 +205,9 @@
       });
 
       r.container = {
-        height: container.height(),
-        ratio: (container.width() / container.height()),
-        width: container.width(), 
+        height: container.outerWeight(),
+        ratio: (container.outerWidth() / container.outerHeight()),
+        width: container.outerWidth(), 
       };
 
       r.image = image;
